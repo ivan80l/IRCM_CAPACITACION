@@ -2,12 +2,14 @@
 
 {% block content %}
 <h1>LISTA DE MEDICOS</h1>
+<a href="{{url_for('nuevo_medico')}}" class="btn btn-success mb-2">Agregar Médico</a>
 <table class="table table-striped table-hover">
     <thead class ="table-dark">
         <tr>
             <th>ID</th>
             <th>Nombre</th>
             <th>Especialidad</th>
+            <th>email</th>
             <th>Telefono</th>
         </tr>
     </thead>
@@ -17,7 +19,12 @@
             <td>{{ medico.id_medico }}</td>
             <td>{{ medico.nombre }}</td>
             <td>{{ medico.especialidad }}</td>
+            <td>{{ medico.email }}</td>
             <td>{{ medico.telefono }}</td>
+            <td>
+                <a href="{{ url_for('editar_medico', id_medico=medico.id_medico) }}" class="btn btn-warning">Editar</a>
+                <a href="{{ url_for('eliminar_medico', id_medico=medico.id_medico) }}" 
+                class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar este médico?');">Eliminar</a>
         </tr>
         {% endfor %}
     </tbody>

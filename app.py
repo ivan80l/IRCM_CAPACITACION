@@ -20,7 +20,53 @@ def medicos():
     medicos = conn.execute('SELECT * FROM medicos').fetchall()
     conn.close()
     return render_template('medicos.html', medicos=medicos)
+@app.route("/nuevo_medico", methods=["GET", "POST"])
+def nuevo_medico(): 
+    if request.method == "POST":
+        #leer contenido del formulario
+        nombre = request.form["nombre"]
+        especialidad = request.form["especialidad"]
+        email = request.form["email"]
+        telefono = request.form["telefono"]
 
+        conn = get_db_connection()
+        conn.execute(
+            "INSERT INTO medicos (nombre, especialidad, email, telefono) VALUES (?, ?, ?, ?)",
+            (nombre, especialidad, email, telefono)
+        )
+        conn.commit()
+        conn.close()
+        flash("Médico agregado exitosamente.", "success")
+        return redirect(url_for("medicos"))
+    return render_template("formulario_medicos.html")
+@app.route("/medico/editar/<int:id_medico>", methods=["GET", "POST"])
+def editar_medico(id_medico):
+    conn = get_db_connection()
+    medico = conn.execute("SELECT * FROM medicos WHERE id_medico = ?", (id_medico,)).fetchone()
+    if request.method == "POST":
+        nombre = request.form["nombre"]
+        especialidad = request.form["especialidad"]
+        email = request.form["email"]
+        telefono = request.form["telefono"]
+
+        conn.execute(
+            "UPDATE medicos SET nombre = ?, especialidad = ?, email = ?, telefono = ? WHERE id_medico = ?",
+            (nombre, especialidad, email, telefono, id_medico)
+        )
+        conn.commit()
+        conn.close()
+        flash("Médico actualizado exitosamente.", "success")
+        return redirect(url_for("medicos"))
+
+    return render_template("formulario_medicos.html", medico=medico)
+@app.route("/medico/eliminar/<int:id_medico>")
+def eliminar_medico(id_medico):
+    conn = get_db_connection()
+    conn.execute("DELETE FROM medicos WHERE id_medico = ?", (id_medico,))
+    conn.commit()
+    conn.close()
+    flash("Médico eliminado exitosamente.", "success")
+    return redirect(url_for("medicos"))
 
 @app.route('/pacientes')
 def pacientes():
