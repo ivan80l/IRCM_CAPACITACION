@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <div class ="card-header">
+        <h2>
+            {% if consulta %}
+            Editar Consulta
+            {% else %}
+            Nueva Consulta
+            {% endif %}
+        </h2>
+    </div>
+    <div class="card-body">
+        <form action="" method="post">
+            <div class="mb-3">
+                <label for="fecha" class="form-label">Fecha:</label>
+                <input type="date" class="form-control" name="fecha" 
+                value="{{ consulta.fecha if consulta else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="motivo" class="form-label">Motivo:</label>
+                <input type="text" class="form-control" id="motivo" name="motivo" 
+                value="{{ consulta.motivo if consulta else '' }}" required>
+            </div>
+            <div class="mb-3">
+                <label for="id_medico" class="form-label">Médico:</label>
+                <select class="form-select" id="id_medico" name="id_medico" required>
+                    {% for medico in medicos %}
+                    <option value="{{ medico.id_medico }}" 
+                    {% if consulta and consulta.id_medico == medico.id_medico %} selected {% endif %}>
+                        {{ medico.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_paciente" class="form-label">Paciente:</label>
+                <select class="form-select" id="id_paciente" name="id_paciente" required>
+                    {% for paciente in pacientes %}
+                    <option value="{{ paciente.id_paciente }}" 
+                    {% if consulta and consulta.id_paciente == paciente.id_paciente %} selected {% endif %}>
+                        {{ paciente.nombre }}
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Guardar Consulta</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

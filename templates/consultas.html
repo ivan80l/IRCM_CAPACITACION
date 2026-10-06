@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>LISTA DE CONSULTAS</h1>
+<a href="{{url_for('nueva_consulta')}}" class="btn btn-success mb-2">Agregar Consulta</a>
+<table class="table table-striped table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Motivo</th>
+            <th>Médico</th>
+            <th>Paciente</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for consulta in consultas %}
+        <tr>
+            <td>{{ consulta.id_consulta }}</td>
+            <td>{{ consulta.fecha }}</td>
+            <td>{{ consulta.motivo }}</td>
+            <td>{{ consulta.nombre_medico }}</td>
+            <td>{{ consulta.nombre_paciente }}</td>
+            <td>
+                <a href="{{ url_for('editar_consulta', id_consulta=consulta.id_consulta) }}" class="btn btn-warning">Editar</a>
+                <a href="{{ url_for('eliminar_consulta', id_consulta=consulta.id_consulta) }}" 
+                class="btn btn-danger" onclick="return confirm('¿Estás seguro de que quieres eliminar esta consulta?');">Eliminar</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

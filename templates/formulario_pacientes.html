@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+<div class="card">
+    <div>
+        <h2>
+            {% if paciente %}
+            Editar Paciente
+            {% else %}
+            Nuevo Paciente
+            {% endif %}
+        </h2>
+    </div>
+</div class="card-body">
+    <form method="POST" action="">
+        <div class="mb-3">
+            <label for="nombre" class="form-label">Nombre:</label>
+            <input type="text" class="form-control" name="nombre" 
+            value="{{ paciente.nombre if paciente else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="email" class="form-label">Email:</label>
+            <input type="email" class="form-control" id="email" name="email" 
+            value="{{ paciente.email if paciente else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="telefono" class="form-label">Teléfono:</label>
+            <input type="tel" class="form-control" id="telefono" name="telefono" 
+            value="{{ paciente.telefono if paciente else '' }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="fecha_nacimiento" class="form-label">Fecha de Nacimiento:</label>
+            <input type="date" class="form-control" id="fecha_nacimiento" name="fecha_nacimiento" 
+            value="{{ paciente.fecha_nacimiento if paciente else '' }}" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Agregar Paciente</button>
+    </form>
+{% endblock %}
